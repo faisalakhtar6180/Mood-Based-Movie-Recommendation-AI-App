@@ -1,6 +1,6 @@
 # 🎬 Mood-Based Movie Recommendation AI App
 
-An AI-powered movie recommendation web application built using **Python**, **Flask**, **OpenAI API**, **Hugging Face Transformers**, **TMDb API**, and **Twilio SendGrid**.
+An AI-powered movie recommendation web application built using **Python**, **Flask**, **OpenAI API**, **TMDb API**, and **Twilio SendGrid**.
 
 This application detects the user's mood/emotion from text input and recommends movies accordingly. The recommendations are then sent directly to the user's email.
 
