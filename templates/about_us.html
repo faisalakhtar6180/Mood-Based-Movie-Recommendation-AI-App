@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MovieFindr - About Us</title>
+    <style>
+        /* --- COPY OF STYLES FROM mood_check.html --- */
+        :root {
+            --dark-blue-bg: #0A0F2C; 
+            --form-card-bg: rgba(10, 15, 44, 0.45); /* Using the same transparency for consistency */
+            --purple-main: #9333ea; 
+            --white: #ffffff;
+            --light-text: #E0E0E0;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: var(--dark-blue-bg);
+            color: var(--white);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            
+            /* BACKGROUND SETUP (faisal1.jpg) */
+            background-image: url('faisal1.jpg'); 
+            background-size: cover;
+            background-position: center;
+        }
+        
+        .background-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, rgba(30, 0, 70, 0.9), rgba(0, 0, 0, 0.8)); 
+            z-index: -1;
+        }
+
+        /* HEADER & NAVIGATION */
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 2rem;
+            background-color: rgba(0, 0, 0, 0.4); 
+            backdrop-filter: blur(5px);
+            position: sticky;
+            top: 0;
+            z-index: 10;
+        }
+        .logo {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: var(--white);
+            display: flex;
+            align-items: center;
+        }
+        .nav-links a {
+            color: var(--light-text);
+            text-decoration: none;
+            margin-left: 1.5rem;
+            font-size: 1rem;
+            transition: color 0.3s;
+        }
+        .nav-links a:hover {
+            color: var(--purple-main);
+        }
+
+        /* MAIN CONTENT - Standard Content Container for this page */
+        .main-content {
+            flex-grow: 1;
+            padding: 2rem;
+            max-width: 900px; 
+            width: 100%;
+            margin: 0 auto; 
+            position: relative;
+            z-index: 1;
+        }
+        
+        /* CONTENT CARD (Similar to form-card, but for content) */
+        .content-card {
+            background-color: var(--form-card-bg); /* Use transparent card background */
+            border-radius: 1.5rem; 
+            border: 1px solid rgba(147, 51, 234, 0.5); 
+            padding: 2.5rem;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.5);
+            margin-top: 2rem;
+        }
+        
+        /* New styles for Team Content */
+        .content-card h1 {
+            color: var(--white);
+            border-bottom: 2px solid rgba(147, 51, 234, 0.5);
+            padding-bottom: 15px;
+            margin-bottom: 30px;
+            text-align: center;
+        }
+        .team-member {
+            background-color: rgba(255, 255, 255, 0.05); /* Slightly lighter inner box */
+            border-left: 5px solid var(--purple-main);
+            color: var(--light-text);
+            margin: 40px auto;
+            border-radius: 8px;
+            display: flex;
+            flex-direction: column; 
+            align-items: center;
+            padding: 20px;
+        }
+
+        */
+        @media (min-width: 768px) {
+            .team-member {
+                flex-direction: row; 
+            }
+        }
+        .team-member img {
+            border: 3px solid var(--purple-main);
+            box-shadow: 0 2px 5px rgba(0,0,0,0.5);
+            margin-right: 25px;
+        }
+        .member-details h2 {
+            color: var(--purple-main);
+            margin-top: 0;
+            margin-bottom: 10px;
+        }
+        .back-button-container {
+            text-align: center;
+            margin-top: 40px;
+        }
+        .back-button {
+            background-color: var(--purple-main);
+        }
+        .back-button:hover {
+            background-color: #a855f7;
+        }
+
+    </style>
+</head>
+<body>
+    <div class="background-overlay"></div>
+
+    <header class="header">
+        <div class="logo">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align: middle; margin-right: 5px;"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+            MovieFindr
+        </div>
+        <nav class="nav-links">
+            <a href="{{ url_for('index') }}">MovieFindr</a>
+            <a href="{{ url_for('how_its_work') }}">How it work</a>
+            <a href="{{ url_for('about_us') }}">About us</a>
+            <a href="{{ url_for('help_page') }}">Help</a> 
+        </nav>
+    </header>
+
+    <div class="main-content">
+        <div class="content-card">
+            <h1>Meet the Team Behind Your Movie Recommendation System </h1>
+            <p>I'm passionate about movies and technology, and I've put my skills together to bring you this personalized movie recommendation system.</p>
+
+            <div class="team-member">
+                <img src="{{ url_for('static', filename='images/faisal-image.png') }}" alt="Your Name's Photo" width="150" height="150" style="border-radius: 50%; object-fit: cover;">
+                <div class="member-details">
+                    <h2>Faisal Akhtar</h2>
+
+                    <p>I focused on building the core recommendation engine, implementing both content-based and collaborative filtering techniques. My passion lies in data science and creating intelligent systems that enhance user experience.</p>
+
+                </div>
+            </div>
+
+
+            <div class="back-button-container">
+                <a href="{{ url_for('index') }}" class="back-button" style="display: inline-block; padding: 10px 20px; color: white; text-decoration: none; border-radius: 5px; font-weight: bold; transition: background-color 0.3s ease;">Back to MovieFindr</a>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

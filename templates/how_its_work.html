@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MovieFindr - How it Works</title>
+    <style>
+        /* --- COPY OF STYLES FROM mood_check.html --- */
+        :root {
+            --dark-blue-bg: #0A0F2C;
+            --form-card-bg: rgba(10, 15, 44, 0.45);
+            --purple-main: #9333ea;
+            --white: #ffffff;
+            --light-text: #E0E0E0;
+        }
+
+        background-image: url('{{ url_for("static", filename="images/faisal1.jpg") }}');
+
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: var(--dark-blue-bg);
+            color: var(--white);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+
+            /* BACKGROUND SETUP (faisal1.jpg) */
+            background-image: url('faisal1.jpg');
+            background-size: cover;
+            background-position: center;
+        }
+
+        .background-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, rgba(30, 0, 70, 0.9), rgba(0, 0, 0, 0.8));
+            z-index: -1;
+        }
+
+        /* HEADER & NAVIGATION */
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 2rem;
+            background-color: rgba(0, 0, 0, 0.4);
+            backdrop-filter: blur(5px);
+            position: sticky;
+            top: 0;
+            z-index: 10;
+        }
+        .logo {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: var(--white);
+            display: flex;
+            align-items: center;
+        }
+        .nav-links a {
+            color: var(--light-text);
+            text-decoration: none;
+            margin-left: 1.5rem;
+            font-size: 1rem;
+            transition: color 0.3s;
+        }
+        .nav-links a:hover {
+            color: var(--purple-main);
+        }
+
+        /* MAIN CONTENT - Standard Content Container for this page */
+        .main-content {
+            flex-grow: 1;
+            padding: 2rem;
+            max-width: 900px;
+            width: 100%;
+            margin: 0 auto;
+            position: relative;
+            z-index: 1;
+        }
+
+        /* CONTENT CARD (Container for the page content) */
+        .content-card {
+            background-color: var(--form-card-bg); /* Use transparent card background */
+            border-radius: 1.5rem;
+            border: 1px solid rgba(147, 51, 234, 0.5);
+            padding: 2.5rem;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.5);
+            margin-top: 2rem;
+        }
+
+        /* New styles for How It Works Content */
+        .content-card h1 {
+            color: var(--white);
+            border-bottom: 2px solid rgba(147, 51, 234, 0.5);
+            padding-bottom: 15px;
+            margin-bottom: 30px;
+            text-align: center;
+        }
+        .content-card h2, .content-card h3 {
+            color: var(--purple-main);
+            border-bottom: none;
+        }
+        .flowchart-img {
+            max-width: 100%;
+            height: auto;
+            display: block;
+            margin: 20px auto;
+            border: 2px solid var(--purple-main);
+            border-radius: 5px;
+        }
+        .section {
+            background-color: rgba(255, 255, 255, 0.05); /* Slightly lighter inner box */
+            border-left: 5px solid var(--purple-main);
+            color: var(--light-text);
+            padding: 15px;
+            border-radius: 4px;
+        }
+        ul {
+            color: var(--light-text);
+        }
+        li strong {
+            color: var(--purple-main);
+        }
+        .back-button-container {
+            text-align: center;
+            margin-top: 30px;
+        }
+        .back-button {
+            background-color: var(--purple-main);
+            display: inline-block;
+            padding: 10px 20px;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            font-weight: bold;
+            transition: background-color 0.3s ease;
+        }
+        .back-button:hover {
+            background-color: #a855f7;
+        }
+
+    </style>
+</head>
+<body>
+    <div class="background-overlay"></div>
+
+    <header class="header">
+        <div class="logo">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align: middle; margin-right: 5px;"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+            MovieFindr
+        </div>
+        <nav class="nav-links">
+            <a href="{{ url_for('index') }}">MovieFindr</a>
+            <a href="{{ url_for('how_its_work') }}">How it work</a>
+            <a href="{{ url_for('about_us') }}">About us</a>
+            <a href="{{ url_for('help_page') }}">Help</a>
+        </nav>
+    </header>
+
+    <div class="main-content">
+        <div class="content-card" >
+            <h1>How Our Movie Recommendation System Works</h1>
+            <p style= "color : #FFFFFF; ">Welcome to the "How It Works" page! Here, we'll explain the backend logic that powers our movie recommendation system, ensuring you get personalized movie suggestions tailored just for you. Our system is designed to understand your preferences and provide relevant content.</p >
+
+            <img src="{{ url_for('static', filename='images/FLOWCHART.jpg') }}" alt="Movie Recommendation System Backend Flowchart" class="flowchart-img">
+
+            <div class="section">
+                <h2>The Core Logic: A Step-by-Step Flow</h2>
+                <p>Our recommendation engine operates through a series of interconnected steps, ensuring a seamless and intelligent user experience. Let's break down the process as depicted in the flowchart above:</p>
+
+                <h3>1. User Access & Authentication</h3>
+                <ul>
+                    <li><strong>Start:</strong> The system is always ready to serve.</li>
+                    <li><strong>User Accesses System:</strong> Whether it's your first time or you're a returning user, you initiate interaction with our platform.</li>
+                    <li><strong>User Registration/Login:</strong>
+                        <ul>
+                            <li>**New User:** You'll create a new account, providing basic details.</li>
+                            <li>**Returning User:** You'll log in with your existing credentials.</li>
+                        </ul>
+                    </li>
+                    <li><strong>User Authenticated?:</strong> The system verifies your identity securely. If successful, you proceed; otherwise, you're prompted to try again.</li>
+                </ul>
+            </div>
+
+            <div class="section">
+                <h3>2. Understanding Your Preferences</h3>
+                <ul>
+                    <li><strong>Fetch User Profile/History:</strong> Once authenticated, the system retrieves all relevant data about you. This includes:
+                        <ul>
+                            <li>Movies you've watched or marked as "seen."</li>
+                            <li>Your explicit ratings (likes, dislikes, star ratings).</li>
+                            <li>Your search queries.</li>
+                            <li>Any genres, actors, or directors you've expressed interest in.</li>
+                        </ul>
+                        This historical data is crucial for building your unique preference profile.
+                    </li>
+                </ul>
+            </div>
+
+            <div class="section">
+                <h3>3. Generating Smart Recommendations</h3>
+                <p>This is the brain of our system, where different algorithms work together to suggest movies you'll love:</p>
+                <ul>
+                    <li><strong>Content-Based Filtering:</strong>
+                        <ul>
+                            <li><strong>Retrieve Movie Data:</strong> We access a rich database of movie information, including genres, plot summaries, keywords, cast, crew, and more.</li>
+                            <li><strong>Process User Preferences/Interactions:</strong> The system analyzes the characteristics of movies you've enjoyed in the past.</li>
+                            <li><strong>Apply Recommendation Algorithm:</strong> It then looks for new movies that share similar characteristics (e.g., if you like action-packed sci-fi thrillers, it will suggest other similar films).</li>
+                        </ul>
+                    </li>
+                    <li><strong>Collaborative Filtering:</strong>
+                        <ul>
+                            <li>This method finds users with tastes similar to yours. If User A and User B both liked a set of movies, and User A liked a new movie that User B hasn't seen yet, our system might recommend that movie to User B.</li>
+                            <li>It also identifies movies similar to those you've liked, based on how other users have rated them.</li>
+                        </ul>
+                    </li>
+                    <li><strong>Hybrid Approaches:</strong> We often combine both content-based and collaborative filtering to get the best of both worlds, mitigating the limitations of each individual approach and providing more robust and accurate recommendations.</li>
+                </ul>
+            </div>
+
+            <div class="section">
+                <h3>4. Refining and Presenting Recommendations</h3>
+                <ul>
+                    <li><strong>Filter/Rank Recommendations:</strong> Before showing you anything, the system refines the raw recommendations:
+                        <ul>
+                            <li><strong>Filtering:</strong> It removes movies you've already watched, explicitly disliked, or are otherwise irrelevant.</li>
+                            <li><strong>Ranking:</strong> The remaining movies are then carefully ordered, with the most relevant and highly predicted ones appearing first.</li>
+                        </ul>
+                    </li>
+                    <li><strong>Display Recommendations to User:</strong> Your personalized list of movies is then presented beautifully on your screen, ready for you to explore.</li>
+                </ul>
+            </div>
+
+            <div class="section">
+                <h3>5. Continuous Learning & Improvement</h3>
+                <ul>
+                    <li><strong>User Interacts with Recommendations?:</strong> We constantly observe how you engage with the recommendations we provide.</li>
+                    <li><strong>Record User Interaction (Watch, Like, Dislike, Search):</strong> Every interaction – watching a movie, rating it, adding it to a watchlist, or even just searching for something new – is recorded. This feedback loop is vital! It helps the system learn more about your evolving tastes and improves the accuracy of future recommendations. This makes our system dynamic and ever-improving.</li>
+                    <li><strong>End Session:</strong> When you log out or stop using the system, your current session concludes.</li>
+                </ul>
+            </div>
+
+            <p style= "color : #FFFFFF; ">By following these steps, our Movie Recommendation System provides a smart, personalized, and continuously learning experience, helping you discover your next favorite movie!</p>
+
+            <div class="back-button-container">
+                <a href="{{ url_for('index') }}" class="back-button">Back to MovieFindr</a>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>MovieFindr - Mood Check</title>
+  <style>
+    :root { --dark-blue-bg:#0A0F2C; --form-card-bg:rgba(10,15,44,0.45); --purple-main:#9333ea; --white:#fff; --light-text:#E0E0E0; --input-bg:rgba(255,255,255,0.1); }
+    body {
+      font-family: Arial, sans-serif; margin:0; padding:0; color:var(--white);
+      min-height:100vh; display:flex; flex-direction:column;
+      background-color:var(--dark-blue-bg);
+      background-image: url('{{ url_for("static", filename="images/faisal1.jpg") }}');
+      background-size: cover; background-position:center;
+    }
+    .background-overlay { position:fixed; top:0; left:0; width:100%; height:100%; background:linear-gradient(135deg, rgba(30,0,70,0.9), rgba(0,0,0,0.8)); z-index:-1; }
+    .header { display:flex; justify-content:space-between; align-items:center; padding:1rem 2rem; background-color: rgba(0,0,0,0.4); position:sticky; top:0; z-index:10; }
+    .logo { font-size:1.5rem; font-weight:bold; display:flex; align-items:center;}
+    .nav-links a { color:var(--light-text); text-decoration:none; margin-left:1.5rem; }
+    .nav-links a:hover { color:var(--purple-main); }
+    .main-content { flex-grow:1; display:flex; align-items:center; justify-content:center; padding:2rem; position:relative; z-index:1; }
+    .form-card { background-color:var(--form-card-bg); border-radius:1.5rem; border:1px solid rgba(147,51,234,0.5); padding:3rem 4rem; max-width: 48rem; width:100%; text-align:center; box-shadow:0 10px 20px rgba(0,0,0,0.5); backdrop-filter: blur(1px); }
+    .heading-1 { font-size:2.5rem; margin-bottom:.5rem; color:var(--white); }
+    .sub-heading { font-size:1.1rem; margin-bottom:2rem; color:var(--light-text); }
+    .form-textarea, .form-input { width:100%; padding:.75rem 1rem; background-color:var(--input-bg); border:1px solid rgba(255,255,255,0.2); border-radius:.5rem; color:var(--white); }
+    .button-primary { width:100%; background-color:var(--purple-main); color:var(--white); padding:.75rem 1rem; border-radius:.5rem; border:none; font-size:1.1rem; font-weight:700; cursor:pointer; }
+    .button-primary:hover { background-color:#a855f7; }
+    .result-section { margin-top:2rem; padding-top:1.5rem; border-top:1px solid rgba(255,255,255,0.1); }
+
+    .movie-image {
+      width: 100%;
+      height: 25rem;
+      object-fit: cover;
+      border-radius: 0.375rem;
+      margin-bottom: 0.5rem;
+    }
+    .movie-card {
+      font-weight: 600;
+      font-size: 1.125rem;
+      margin-bottom: 0.25rem;
+      margin: 12px;
+      max-width: 200px;
+      display: inline-block;
+      vertical-align: top;
+      text-align: left;
+      color: var(--light-text);
+    }
+    .movie-link { color:#93d7ff; text-decoration:none; }
+    .movie-link:hover { text-decoration: underline; }
+
+    /* Utility classes */
+    .hidden {display: none;}
+    .movie-grid { display:flex; gap:12px; flex-wrap:wrap; justify-content:center; margin-top:12px; }
+    .movie-title { color: #fff; font-weight:700; margin-top:6px; }
+  </style>
+</head>
+<body>
+  <div class="background-overlay"></div>
+  <header class="header">
+    <div class="logo">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+      MovieFindr
+    </div>
+    <nav class="nav-links">
+      <a href="{{ url_for('how_its_work') }}">How it work</a>
+      <a href="{{ url_for('about_us') }}">About us</a>
+      <a href="{{ url_for('help_page') }}">Help</a>
+    </nav>
+  </header>
+
+  <div class="main-content">
+    <div class="form-card">
+      <h1 class="heading-1">How are you feeling?</h1>
+      <p class="sub-heading">get a movie recommendation</p>
+
+      <form id="moodForm">
+        <div>
+          <label for="userInput" style="display:block;text-align:left;font-weight:bold;margin-bottom:6px;">Describe how you're feeling...</label>
+          <textarea id="userInput" name="user_input" class="form-textarea" placeholder="..." rows="4"></textarea>
+        </div>
+
+        <div style="margin-top:12px;">
+          <label for="userEmail" style="display:block;text-align:left;font-weight:bold;margin-bottom:6px;">Wanna send the recommendation to your email?</label>
+          <input type="email" id="userEmail" name="user_email" class="form-input" placeholder="Your email (optional)">
+        </div>
+
+        <button type="submit" class="button-primary" style="margin-top:16px;">Get Recommendation</button>
+      </form>
+
+      <div id="loading" style="display:none;margin-top:10px;">Analyzing your mood and finding perfect movies for you...</div>
+      <div id="error" style="display:none;color:#f87171;margin-top:10px;">An error occurred. Please try again.</div>
+
+      <div id="result" class="result-section" style="display:none;">
+        <h2>Your Mood: <span id="detectedMood"></span></h2>
+        <h2>Recommended Movies:</h2>
+        <div id="movieRecommendations" class="movie-grid"></div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    document.getElementById('moodForm').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const userInput = document.getElementById('userInput').value.trim();
+      const userEmail = document.getElementById('userEmail').value.trim();
+      if (!userInput) {
+        alert('Please describe how you are feeling (a short sentence is fine).');
+        return;
+      }
+
+      document.getElementById('loading').style.display = 'block';
+      document.getElementById('result').style.display = 'none';
+      document.getElementById('error').style.display = 'none';
+      try {
+        const formData = new FormData();
+        formData.append('user_input', userInput);
+        formData.append('user_email', userEmail);
+        const response = await fetch('/analyze', { method: 'POST', body: formData });
+        if (!response.ok) {
+          const err = await response.json().catch(()=>({error:'Unknown server error'}));
+          throw new Error(err.error || 'Network response was not ok');
+        }
+        const data = await response.json();
+        document.getElementById('detectedMood').textContent = data.emotion || 'Unknown';
+        const recommendationsDiv = document.getElementById('movieRecommendations');
+        recommendationsDiv.innerHTML = '';
+
+        const movies = data.movies || [];
+        if (movies.length === 0) {
+          recommendationsDiv.innerHTML = '<div style="color:#f3f4f6">No recommendations found. Try describing your mood differently.</div>';
+        } else {
+          movies.forEach(movie => {
+            const poster = movie.poster || '/static/images/placeholder.png';
+            const link = movie.link || '#';
+            const movieDiv = document.createElement('div');
+            movieDiv.className = 'movie-card';
+            movieDiv.innerHTML = `
+              <div style="width:200px;">
+                <img src="${poster}" alt="${movie.title}" class="movie-image" onerror="this.src='/static/images/placeholder.png'">
+                <div class="movie-title">${movie.title}</div>
+                <a href="${link}" target="_blank" class="movie-link">More Info</a>
+              </div>
+            `;
+            recommendationsDiv.appendChild(movieDiv);
+          });
+        }
+
+        document.getElementById('result').style.display = 'block';
+        if (data.email_sent) alert('An email with your recommendations has been sent!');
+      } catch (err) {
+        console.error(err);
+        document.getElementById('error').textContent = 'An error occurred: ' + (err.message || '');
+        document.getElementById('error').style.display = 'block';
+      } finally {
+        document.getElementById('loading').style.display = 'none';
+      }
+    });
+  </script>
+</body>
+</html>

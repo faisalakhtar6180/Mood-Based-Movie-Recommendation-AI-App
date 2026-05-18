@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MovieFindr - Help Center</title>
+    <style>
+        /* --- COPY OF CONSISTENT STYLES --- */
+        :root {
+            --dark-blue-bg: #0A0F2C; 
+            --form-card-bg: rgba(10, 15, 44, 0.45); /* Consistent 45% opaque card */
+            --purple-main: #9333ea; 
+            --white: #ffffff;
+            --light-text: #E0E0E0;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: var(--dark-blue-bg);
+            color: var(--white);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            
+            /* BACKGROUND SETUP (faisal1.jpg) */
+            background-image: url('faisal1.jpg'); 
+            background-size: cover;
+            background-position: center;
+        }
+        
+        .background-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, rgba(30, 0, 70, 0.9), rgba(0, 0, 0, 0.8)); 
+            z-index: -1;
+        }
+
+        /* HEADER & NAVIGATION */
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 2rem;
+            background-color: rgba(0, 0, 0, 0.4); 
+            backdrop-filter: blur(5px);
+            position: sticky;
+            top: 0;
+            z-index: 10;
+        }
+        .logo {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: var(--white);
+            display: flex;
+            align-items: center;
+        }
+        .nav-links a {
+            color: var(--light-text);
+            text-decoration: none;
+            margin-left: 1.5rem;
+            font-size: 1rem;
+            transition: color 0.3s;
+        }
+        .nav-links a:hover {
+            color: var(--purple-main);
+        }
+
+        /* MAIN CONTENT - Standard Content Container */
+        .main-content {
+            flex-grow: 1;
+            padding: 2rem;
+            max-width: 900px; 
+            width: 100%;
+            margin: 0 auto; 
+            position: relative;
+            z-index: 1;
+        }
+        
+        /* CONTENT CARD (Container for the page content) */
+        .content-card {
+            background-color: var(--form-card-bg);
+            border-radius: 1.5rem; 
+            border: 1px solid rgba(147, 51, 234, 0.5); 
+            padding: 2.5rem;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.5);
+            margin-top: 2rem;
+        }
+
+        /* Help Page Specific Styles (FAQ) */
+        .content-card h1 {
+            font-size: 2.5rem; 
+            color: var(--white);
+            border-bottom: 2px solid var(--purple-main);
+            padding-bottom: 15px;
+            margin-bottom: 30px;
+            text-align: center;
+        }
+        .faq-item {
+            margin-bottom: 20px;
+            padding: 15px;
+            background-color: rgba(255, 255, 255, 0.05); /* Light background for separation */
+            border-radius: 8px;
+            border-left: 4px solid var(--purple-main);
+        }
+        .faq-item h2 {
+            color: var(--purple-main);
+            font-size: 1.4rem;
+            margin-top: 0;
+            margin-bottom: 10px;
+        }
+        .faq-item p {
+            color: var(--light-text);
+            margin-left: 10px;
+        }
+        .contact-info {
+            text-align: center;
+            margin-top: 40px;
+            padding-top: 20px;
+            border-top: 1px solid rgba(147, 51, 234, 0.5);
+        }
+
+    </style>
+</head>
+<body>
+    <div class="background-overlay"></div>
+
+    <header class="header">
+        <div class="logo">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align: middle; margin-right: 5px;"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+            MovieFindr
+        </div>
+        <nav class="nav-links">
+            <a href="{{ url_for('index') }}">MovieFindr</a>
+            <a href="{{ url_for('how_its_work') }}">How it work</a>
+            <a href="{{ url_for('about_us') }}">About us</a>
+            <a href="{{ url_for('help_page') }}">Help</a>
+        </nav>
+    </header>
+
+    <div class="main-content">
+        <div class="content-card">
+            <h1>MovieFindr Help Center & FAQ</h1>
+            <p style="text-align: center; margin-bottom: 30px;">Find answers to common questions about using our mood-based movie recommendation system.</p>
+
+            <div class="faq-item">
+                <h2>How does the mood detection work?</h2>
+                <p>Our system uses advanced natural language processing (NLP) to analyze the text you provide in the "Describe how you're feeling..." box. It extracts emotional cues and keywords to categorize your current mood (e.g., happy, sad, anxious, excited) and matches it to appropriate movie genres and themes.</p>
+            </div>
+
+            <div class="faq-item">
+                <h2>Why should I enter my email?</h2>
+                <p>Entering your email is optional, but it allows us to send the resulting movie recommendations directly to your inbox. This way, you can easily access them later or share them without needing to keep the webpage open.</p>
+            </div>
+            
+            <div class="faq-item">
+                <h2>What if the recommendation is completely wrong?</h2>
+                <p>While our AI is highly trained, it's not perfect! If you receive a suggestion that doesn't fit your mood, try rephrasing your input with more descriptive words. The system learns over time, and your feedback helps improve future recommendations for everyone.</p>
+            </div>
+            
+            <div class="faq-item">
+                <h2>Do you store my personal information?</h2>
+                <p>We only temporarily store the mood description and optionally your email address for the purpose of sending the recommendation. We do not store detailed personal data, ratings, or browsing history for long-term profiling.</p>
+            </div>
+
+            <div class="contact-info">
+                <p>Still need assistance? Please email us at <a href="shubhammaurya3519@gmail.com" type="email">MovieFindr@gmail.com</a>.</p>
+                <a href="{{ url_for('index') }}" class="back-button" style="display: inline-block; padding: 10px 20px; background-color: var(--purple-main); color: white; text-decoration: none; border-radius: 5px; font-weight: bold; transition: background-color 0.3s ease;">Go Back to MovieFindr</a>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
